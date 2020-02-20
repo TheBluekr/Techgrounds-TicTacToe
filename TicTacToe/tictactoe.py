@@ -94,10 +94,14 @@ class Board:
             return
     
     def check_win(self):
-        self.check_horizontal()
-        self.check_vertical()
-        self.check_diagonal()
-        return self.win
+        win = False
+        if(self.check_horizontal()):
+            win = True
+        if(self.check_vertical()):
+            win = True
+        if(self.check_diagonal()):
+            win = True
+        return win
     
     def check_stalemate(self):
         stalemate = True
@@ -119,49 +123,44 @@ class Board:
             return False # Invalid index, ignore this position
         hypothetical_board[x][y] = self.players[player]
         win = False
-
-        for i in range(len(hypothetical_board)): # Horizontal check
-            if(hypothetical_board[i][0] == hypothetical_board[i][1] == hypothetical_board[i][2]):
-                win = True
-
-        for j in range(len(hypothetical_board[0])): # Vertical check
-            for i in range(len(hypothetical_board)-2):
-                if(hypothetical_board[i][j] == hypothetical_board[i+1][j] == hypothetical_board[i+2][j]):
-                    win = True
-    
-        for i in range(len(hypothetical_board)):
-            for j in range(len(hypothetical_board[i])):
-                try:
-                    if(hypothetical_board[i][j] == hypothetical_board[i+1][j+1] == hypothetical_board[i+2][j+2]):
-                        win = True
-                    if(hypothetical_board[i][j+2] == hypothetical_board[i+1][j+1] == hypothetical_board[i+2][j]):
-                        win = True
-                except IndexError:
-                    pass
-        
+        if(self.check_horizontal(hypothetical_board)):
+            win = True
+        if(self.check_vertical(hypothetical_board)):
+            win = True
+        if(self.check_diagonal(hypothetical_board)):
+            win = True
         return win
 
-    def check_horizontal(self):
-        for i in range(len(self.board)):
-            if(self.board[i][0] == self.board[i][1] == self.board[i][2]):
-                self.win = True
+    def check_horizontal(self, board=None):
+        if(not board):
+            board = self.board
+        for i in range(len(board)):
+            if(board[i][0] == board[i][1] == board[i][2]):
+                return True
+        return False
     
-    def check_vertical(self):
-        for j in range(len(self.board[0])):
-            for i in range(len(self.board)-2):
-                if(self.board[i][j] == self.board[i+1][j] == self.board[i+2][j]):
-                    self.win = True
+    def check_vertical(self, board=None):
+        if(not board):
+            board = self.board
+        for j in range(len(board[0])):
+            for i in range(len(board)-2):
+                if(board[i][j] == board[i+1][j] == board[i+2][j]):
+                    return True
+        return False
     
-    def check_diagonal(self):
-            for i in range(len(self.board)):
-                for j in range(len(self.board[i])):
-                    try:
-                        if(self.board[i][j] == self.board[i+1][j+1] == self.board[i+2][j+2]):
-                            self.win = True
-                        if(self.board[i][j+2] == self.board[i+1][j+1] == self.board[i+2][j]):
-                            self.win = True
-                    except IndexError:
-                        pass
+    def check_diagonal(self, board=None):
+        if(not board):
+            board = self.board
+        for i in range(len(board)):
+            for j in range(len(board[i])):
+                try:
+                    if(board[i][j] == board[i+1][j+1] == board[i+2][j+2]):
+                        return True
+                    if(board[i][j+2] == board[i+1][j+1] == board[i+2][j]):
+                        return True
+                except IndexError:
+                    pass
+        return False
 
 print("")
 game = Board(True)
