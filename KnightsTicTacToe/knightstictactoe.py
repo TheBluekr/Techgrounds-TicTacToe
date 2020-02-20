@@ -189,7 +189,7 @@ class Board:
                             return True
                     else:
                         if(self.players[self.turn] == board[currpos[0]+position_check[i][0]][currpos[1]+position_check[i][1]]):
-                            return self.check_knightsmove(currpos=[currpos=currpos[0]+position_check[i][0]][currpos[1]+position_check[i][1]], prevpos=currpos)
+                            return self.check_knightsmove(currpos=[currpos[0]+position_check[i][0]][currpos[1]+position_check[i][1]], prevpos=currpos)
             else: # Previous shouldn't be defined is current position wasn't either
                 for i in range(len(board)):
                     for j in range(len(board)):
