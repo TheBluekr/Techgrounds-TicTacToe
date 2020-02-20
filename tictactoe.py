@@ -13,8 +13,8 @@ class Board:
         self.AI = AI_enabled
     
     def play(self):
-        for i in range(len(self.board)-1):
-            if(len(self.board[0]) != len(self.board[i+1])):
+        for i in range(len(self.board)):
+            if(len(self.board) != len(self.board[i])):
                 print("Board is not squared! Invalid row found on index {0}".format(i+1))
                 return
         if(len(self.board) < 3 or len(self.board[0]) < 3):
