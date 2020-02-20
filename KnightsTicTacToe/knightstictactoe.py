@@ -175,6 +175,29 @@ class Board:
                 except IndexError:
                     pass
         return False
+    
+    def check_knightsmove(self, board=None, currpos=None, prevpos=None):
+        if(not board):
+            board = self.board
+        # Take position and look for shapes possible
+        position_check = [[1, 2], [2, 1], [-1, 2], [2, -1], [-1, -2], [-2, -1], [1, -2], [-2, 1]]
+        try:
+            if(currpos):
+                for i in range(len(position_check)):
+                    if(prevpos):
+                        if(self.players[self.turn] == board[currpos[0]+position_check[i][0]][currpos[1]+position_check[i][1]] and prevpos[0] != currpos[0]+position_check[i][0] and prevpos[1] != currpos[1]+position_check[i][1]): # Prevent checking previous position
+                            return True
+                    else:
+                        if(self.players[self.turn] == board[currpos[0]+position_check[i][0]][currpos[1]+position_check[i][1]]):
+                            return self.check_knightsmove(currpos=[currpos=currpos[0]+position_check[i][0]][currpos[1]+position_check[i][1]], prevpos=currpos)
+            else: # Previous shouldn't be defined is current position wasn't either
+                for i in range(len(board)):
+                    for j in range(len(board)):
+                        if(self.players[self.turn] == board[i][j]):
+                            return self.check_knightsmove(currpos=[i, j])
+        except IndexError:
+            pass
+        return False
 
 print("")
 game = Board(True)
