@@ -135,8 +135,12 @@ class Board:
         if(not board):
             board = self.board
         for i in range(len(board)):
-            if(board[i][0] == board[i][1] == board[i][2]):
-                return True
+            for j in range(len(board[i])):
+                try:
+                    if(board[i][j] == board[i][j+1] == board[i][j+2]):
+                        return True
+                except IndexError:
+                    pass
         return False
     
     def check_vertical(self, board=None):
