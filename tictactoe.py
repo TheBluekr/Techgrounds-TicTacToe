@@ -59,11 +59,13 @@ class Board:
             if(self.AI and self.turn == 1):
                 print("Currently player {0}'s turn\nEnter position: ".format(self.players[self.turn]), end="")
                 for i in range(len(self.board)*len(self.board[0])):
-                    if(self.check_hypothetical_win(self.turn, i)):
+                    if(self.check_hypothetical_win(self.turn, i)): # Check own win first
                         number = i
                         break
-                    else:
-                        number = math.floor(random.uniform(0, len(self.board)*len(self.board[0]))) # Pick a random position if we can't find anything after iterating
+                    if(self.check_hypothetical_win(0, i)): # Check for possible loss
+                        number = i
+                        break
+                    number = math.floor(random.uniform(0, len(self.board)*len(self.board[0]))) # Pick a random position if we can't find anything after iterating
                 print(number+1)
             else:
                 try:
@@ -102,7 +104,7 @@ class Board:
         y = position % edgelength
         if(hypothetical_board[x][y] in self.players):
             return False # Invalid index, ignore this position
-        hypothetical_board[x][y] = self.players[self.turn]
+        hypothetical_board[x][y] = self.players[player]
         win = False
 
         for i in range(len(hypothetical_board)): # Horizontal check
