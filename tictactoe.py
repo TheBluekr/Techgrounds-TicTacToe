@@ -1,5 +1,4 @@
 import copy
-import time
 import math
 import random
 
@@ -28,6 +27,9 @@ class Board:
         self.playing = True
         while self.playing:
             self.print_board()
+            if(self.check_stalemate()):
+                print("Reached stalemate")
+                break
             self.print_turn()
             self.await_input()
             if(self.check_win()):
@@ -96,6 +98,17 @@ class Board:
         self.check_vertical()
         self.check_diagonal()
         return self.win
+    
+    def check_stalemate(self):
+        stalemate = True
+        for y in range(len(self.board)):
+            for x in range(len(self.board[y])):
+                try:
+                    int(self.board[y][x]) # Assuming there's no numbers left execution won't pass
+                    stalemate = False
+                except ValueError:
+                    pass
+        return stalemate
     
     def check_hypothetical_win(self, player=0, position=0):
         hypothetical_board = copy.deepcopy(self.board)
