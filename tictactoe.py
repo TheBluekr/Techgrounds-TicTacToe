@@ -14,8 +14,12 @@ class Board:
     
     def play(self):
         for i in range(len(self.board)):
+            invalid_board = False
             if(len(self.board) != len(self.board[i])):
-                print("Board is not squared! Invalid row found on index {0}".format(i+1))
+                invalid_board = True
+                print("Invalid row found on index {0}".format(i+1))
+            if(invalid_board):
+                print("Board is not squared, returning execution!")
                 return
         if(len(self.board) < 3 or len(self.board[0]) < 3):
             print("Invalid board size with dims {0}x{1}, lowest must be 3x3".format(len(self.board), len(self.board[0])))
